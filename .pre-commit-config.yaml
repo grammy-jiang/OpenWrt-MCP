@@ -38,7 +38,7 @@ repos:
       - id: proselint
         name: A linter for prose
         description: This hook checks language usage and style in text files.
-        entry: proselint
+        entry: proselint check
         language: python
         types: [markdown]
   # ==== SHELL ====

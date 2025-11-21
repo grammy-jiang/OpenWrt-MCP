@@ -1,0 +1,5 @@
+{
+  "checks": {
+    "typography.symbols.sentence_spacing": false
+  }
+}
