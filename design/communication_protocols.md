@@ -1,3 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [OpenWrt Communication Protocols](#openwrt-communication-protocols)
+  - [Overview of Methods](#overview-of-methods)
+    - [1. Ubus (OpenWrt Micro Bus Architecture)](#1-ubus-openwrt-micro-bus-architecture)
+    - [2. SSH (Secure Shell)](#2-ssh-secure-shell)
+    - [3. UCI (Unified Configuration Interface)](#3-uci-unified-configuration-interface)
+    - [4. LuCI (Web Interface) RPC](#4-luci-web-interface-rpc)
+  - [Comparison Table](#comparison-table)
+  - [Pros and Cons](#pros-and-cons)
+    - [Ubus (Recommended)](#ubus-recommended)
+    - [SSH](#ssh)
+    - [LuCI RPC](#luci-rpc)
+  - [Connectivity & API Strategy](#connectivity--api-strategy)
+    - [A. Primary (Implement First)](#a-primary-implement-first)
+    - [B. Secondary (Add Later)](#b-secondary-add-later)
+    - [C. Optional/Edge](#c-optionaledge)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # OpenWrt Communication Protocols
 
 This document explores the various APIs and methods available for communicating with and controlling an OpenWrt device programmatically, specifically for the design of the OpenWrt MCP server.
@@ -80,41 +102,44 @@ The RPC interface used by the LuCI web UI.
 
 ### A. Primary (Implement First)
 
-1.  **ubus (Local + HTTP JSON-RPC via `rpcd`/`uhttpd`)**
+1. **ubus (Local + HTTP JSON-RPC via `rpcd`/`uhttpd`)**
 
     - **Role:** Native, structured, fast communication.
     - **Usage:** Map MCP tools 1:1 to ubus methods (e.g., `uci`, `network.device`, `system`, `hostapd`, `iwinfo`).
 
-2.  **UCI via ubus (`uci` object)**
+1. **UCI via ubus (`uci` object)**
 
     - **Role:** Configuration management.
-    - **Usage:** Treat UCI as the single source of truth. Use `ubus call uci ...` for all config changes to avoid shell parsing. Read-only file reads can be used where absolutely necessary.
+    - **Usage:** Treat UCI as the single source of truth. Use `ubus call uci <args>` for all config changes to avoid shell parsing. Read-only file reads can be used where necessary.
 
-3.  **SSH (`dropbear`/`OpenSSH`) with Strict Whitelist**
+1. **SSH (`dropbear`/`OpenSSH`) with Strict Whitelist**
+
     - **Role:** Fallback mechanism.
     - **Usage:** Only used when ubus coverage is missing. Execution is limited to curated binaries (e.g., `fw4`, `logread`, specific `ubus call` wrappers) to ensure safety.
 
 ### B. Secondary (Add Later)
 
-1.  **`rpcd` Custom Plugins**
+1. **`rpcd` Custom Plugins**
 
     - **Goal:** Add missing capabilities not exposed by default.
     - **Usage:** Implement atomic batched changes or zero-touch playbooks.
 
-2.  **Procd Hooks & Service Control**
+1. **Procd Hooks & Service Control**
 
     - **Goal:** Standardize service management.
     - **Usage:** Unified start/stop/reload/status commands with structured responses.
 
-3.  **ubus Events Subscription**
+1. **ubus Events Subscription**
+
     - **Goal:** Real-time monitoring.
     - **Usage:** Stream health, client association, and state changes (from `hostapd`, `netifd`).
 
 ### C. Optional/Edge
 
-1.  **LuCI JSON-RPC**
+1. **LuCI JSON-RPC**
 
     - Only considered for legacy environments where `rpcd` extensions are missing.
 
-2.  **NetJSON Export**
+1. **NetJSON Export**
+
     - For potential integration with external control planes or Network Management Systems (NMS).
