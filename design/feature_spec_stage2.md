@@ -1,6 +1,5 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Feature Specification: Stage 2 (Advanced Management)](#feature-specification-stage-2-advanced-management)
   - [1. WiFi Survey](#1-wifi-survey)
@@ -38,10 +37,10 @@ This document details the technical specifications for "Advanced Management" fea
 
 ### Tools
 
-| Tool Name             | Arguments                                                                 | Implementation Details                                                        | API Called       |
-| :-------------------- | :------------------------------------------------------------------------ | :---------------------------------------------------------------------------- | :--------------- |
-| `add_port_forward`    | `name`, `proto`, `src_dport`, `dest_ip`, `dest_port`, `device_name` (opt) | **Calls:** `uci add firewall redirect`, `uci set …`, `uci commit firewall`.   | `uci` (firewall) |
-| `list_firewall_rules` | `device_name` (opt)                                                       | **Calls:** `uci get firewall`.                                                | `uci` (firewall) |
+| Tool Name             | Arguments                                                                 | Implementation Details                                                      | API Called       |
+| :-------------------- | :------------------------------------------------------------------------ | :-------------------------------------------------------------------------- | :--------------- |
+| `add_port_forward`    | `name`, `proto`, `src_dport`, `dest_ip`, `dest_port`, `device_name` (opt) | **Calls:** `uci add firewall redirect`, `uci set …`, `uci commit firewall`. | `uci` (firewall) |
+| `list_firewall_rules` | `device_name` (opt)                                                       | **Calls:** `uci get firewall`.                                              | `uci` (firewall) |
 
 ## 3. Diagnostics
 
@@ -61,10 +60,10 @@ This document details the technical specifications for "Advanced Management" fea
 
 ### Tools
 
-| Tool Name          | Arguments                                              | Implementation Details                                                                 | API Called       |
-| :----------------- | :----------------------------------------------------- | :------------------------------------------------------------------------------------- | :--------------- |
-| `read_logs`        | `lines` (def: 50), `filter` (opt), `device_name` (opt) | **Calls:** `logread \| tail -n <lines>` or `logread \| grep <filter>`.                 | `logread` (exec) |
-| `read_kernel_logs` | `lines` (def: 50), `device_name` (opt)                 | **Calls:** `dmesg \| tail -n <lines>`.                                                 | `dmesg` (exec)   |
+| Tool Name          | Arguments                                              | Implementation Details                                                 | API Called       |
+| :----------------- | :----------------------------------------------------- | :--------------------------------------------------------------------- | :--------------- |
+| `read_logs`        | `lines` (def: 50), `filter` (opt), `device_name` (opt) | **Calls:** `logread \| tail -n <lines>` or `logread \| grep <filter>`. | `logread` (exec) |
+| `read_kernel_logs` | `lines` (def: 50), `device_name` (opt)                 | **Calls:** `dmesg \| tail -n <lines>`.                                 | `dmesg` (exec)   |
 
 ## 5. Access Control
 

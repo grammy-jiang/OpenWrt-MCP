@@ -1,6 +1,5 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Feature Specification: Stage 1 (Core Essentials)](#feature-specification-stage-1-core-essentials)
   - [1. Instance Management (Device Registry)](#1-instance-management-device-registry)
@@ -46,7 +45,7 @@ This document details the technical specifications for the "Core Essentials" fea
 | `add_device`    | `name` (req), `host` (req), `username`, `password`, `protocol` | **Action:** Validate connectivity (ping/ubus). Create `Device` object and save via ORM.<br>**Returns:** String "Device '<name>' added successfully." | `system.board` (validation) |
 | `remove_device` | `name` (req)                                                   | **Action:** Delete `Device` object via ORM.<br>**Returns:** String "Device '<name>' removed."                                                        | Internal                    |
 | `list_devices`  | None                                                           | **Action:** Query all `Device` objects.<br>**Returns:** List of `{name, host, status}` (mask passwords).                                             | Internal                    |
-| `update_device` | `name` (req), `host`, `password`, …                          | **Action:** Fetch `Device`, update fields, save via ORM.<br>**Returns:** String "Device '<name>' updated."                                           | Internal                    |
+| `update_device` | `name` (req), `host`, `password`, …                            | **Action:** Fetch `Device`, update fields, save via ORM.<br>**Returns:** String "Device '<name>' updated."                                           | Internal                    |
 
 ---
 
@@ -69,8 +68,8 @@ This document details the technical specifications for the "Core Essentials" fea
 
 ### Tools
 
-| Tool Name        | Arguments           | Implementation Details                                                                                                        | API Called               |
-| :--------------- | :------------------ | :---------------------------------------------------------------------------------------------------------------------------- | :----------------------- |
+| Tool Name        | Arguments           | Implementation Details                                                                                                      | API Called               |
+| :--------------- | :------------------ | :-------------------------------------------------------------------------------------------------------------------------- | :----------------------- |
 | `get_interfaces` | `device_name` (opt) | **Calls:** `ubus call network.interface dump`<br>**Returns:** List of `{interface: "wan", ip: "…", up: true, uptime: 123}`. | `network.interface.dump` |
 
 ---
@@ -93,12 +92,12 @@ This document details the technical specifications for the "Core Essentials" fea
 
 ### Tools
 
-| Tool Name     | Arguments                                                   | Implementation Details                                                                 | API Called    |
-| :------------ | :---------------------------------------------------------- | :------------------------------------------------------------------------------------- | :------------ |
-| `uci_get`     | `config`, `section`, `option` (opt), `device_name` (opt)    | **Calls:** `ubus call uci get …`<br>**Returns:** String value or JSON object.          | `uci.get`     |
-| `uci_set`     | `config`, `section`, `option`, `value`, `device_name` (opt) | **Calls:** `ubus call uci set …`<br>**Returns:** String "Set successful".              | `uci.set`     |
-| `uci_commit`  | `config`, `device_name` (opt)                               | **Calls:** `ubus call uci commit …`<br>**Returns:** String "Commit successful".        | `uci.commit`  |
-| `uci_changes` | `config`, `device_name` (opt)                               | **Calls:** `ubus call uci changes …`<br>**Returns:** JSON object of pending changes.   | `uci.changes` |
+| Tool Name     | Arguments                                                   | Implementation Details                                                               | API Called    |
+| :------------ | :---------------------------------------------------------- | :----------------------------------------------------------------------------------- | :------------ |
+| `uci_get`     | `config`, `section`, `option` (opt), `device_name` (opt)    | **Calls:** `ubus call uci get …`<br>**Returns:** String value or JSON object.        | `uci.get`     |
+| `uci_set`     | `config`, `section`, `option`, `value`, `device_name` (opt) | **Calls:** `ubus call uci set …`<br>**Returns:** String "Set successful".            | `uci.set`     |
+| `uci_commit`  | `config`, `device_name` (opt)                               | **Calls:** `ubus call uci commit …`<br>**Returns:** String "Commit successful".      | `uci.commit`  |
+| `uci_changes` | `config`, `device_name` (opt)                               | **Calls:** `ubus call uci changes …`<br>**Returns:** JSON object of pending changes. | `uci.changes` |
 
 ---
 
@@ -108,6 +107,6 @@ This document details the technical specifications for the "Core Essentials" fea
 
 ### Tools
 
-| Tool Name         | Arguments                           | Implementation Details                                                                                                          | API Called                              |
-| :---------------- | :---------------------------------- | :------------------------------------------------------------------------------------------------------------------------------ | :-------------------------------------- |
+| Tool Name         | Arguments                           | Implementation Details                                                                                                        | API Called                              |
+| :---------------- | :---------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------- |
 | `restart_service` | `service_name`, `device_name` (opt) | **Primary:** `service <name> restart` (via SSH) or `ubus call service …`.<br>**Returns:** String "Service restart initiated." | `service.list`, `service.call` (or SSH) |
