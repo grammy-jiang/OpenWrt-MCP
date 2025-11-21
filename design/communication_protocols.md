@@ -1,6 +1,5 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [OpenWrt Communication Protocols](#openwrt-communication-protocols)
   - [Overview of Methods](#overview-of-methods)
@@ -104,42 +103,42 @@ The RPC interface used by the LuCI web UI.
 
 1. **ubus (Local + HTTP JSON-RPC via `rpcd`/`uhttpd`)**
 
-    - **Role:** Native, structured, fast communication.
-    - **Usage:** Map MCP tools 1:1 to ubus methods (e.g., `uci`, `network.device`, `system`, `hostapd`, `iwinfo`).
+   - **Role:** Native, structured, fast communication.
+   - **Usage:** Map MCP tools 1:1 to ubus methods (e.g., `uci`, `network.device`, `system`, `hostapd`, `iwinfo`).
 
 1. **UCI via ubus (`uci` object)**
 
-    - **Role:** Configuration management.
-    - **Usage:** Treat UCI as the single source of truth. Use `ubus call uci <args>` for all config changes to avoid shell parsing. Read-only file reads can be used where necessary.
+   - **Role:** Configuration management.
+   - **Usage:** Treat UCI as the single source of truth. Use `ubus call uci <args>` for all config changes to avoid shell parsing. Read-only file reads can be used where necessary.
 
 1. **SSH (`dropbear`/`OpenSSH`) with Strict Whitelist**
 
-    - **Role:** Fallback mechanism.
-    - **Usage:** Only used when ubus coverage is missing. Execution is limited to curated binaries (e.g., `fw4`, `logread`, specific `ubus call` wrappers) to ensure safety.
+   - **Role:** Fallback mechanism.
+   - **Usage:** Only used when ubus coverage is missing. Execution is limited to curated binaries (e.g., `fw4`, `logread`, specific `ubus call` wrappers) to ensure safety.
 
 ### B. Secondary (Add Later)
 
 1. **`rpcd` Custom Plugins**
 
-    - **Goal:** Add missing capabilities not exposed by default.
-    - **Usage:** Implement atomic batched changes or zero-touch playbooks.
+   - **Goal:** Add missing capabilities not exposed by default.
+   - **Usage:** Implement atomic batched changes or zero-touch playbooks.
 
 1. **Procd Hooks & Service Control**
 
-    - **Goal:** Standardize service management.
-    - **Usage:** Unified start/stop/reload/status commands with structured responses.
+   - **Goal:** Standardize service management.
+   - **Usage:** Unified start/stop/reload/status commands with structured responses.
 
 1. **ubus Events Subscription**
 
-    - **Goal:** Real-time monitoring.
-    - **Usage:** Stream health, client association, and state changes (from `hostapd`, `netifd`).
+   - **Goal:** Real-time monitoring.
+   - **Usage:** Stream health, client association, and state changes (from `hostapd`, `netifd`).
 
 ### C. Optional/Edge
 
 1. **LuCI JSON-RPC**
 
-    - Only considered for legacy environments where `rpcd` extensions are missing.
+   - Only considered for legacy environments where `rpcd` extensions are missing.
 
 1. **NetJSON Export**
 
-    - For potential integration with external control planes or Network Management Systems (NMS).
+   - For potential integration with external control planes or Network Management Systems (NMS).

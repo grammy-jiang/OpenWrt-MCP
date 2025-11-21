@@ -1,3 +1,14 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [OpenWrt-MCP Feature Roadmap](#openwrt-mcp-feature-roadmap)
+  - [Stage 1: Core Essentials (MVP)](#stage-1-core-essentials-mvp)
+  - [Stage 2: Advanced Management](#stage-2-advanced-management)
+  - [Stage 3: Professional / Niche](#stage-3-professional--niche)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # OpenWrt-MCP Feature Roadmap
 
 This document categorizes features into three stages of implementation: Core Essentials (MVP), Advanced Management, and Professional/Niche.

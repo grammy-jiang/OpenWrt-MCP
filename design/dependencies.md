@@ -1,3 +1,30 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Project Dependencies & Environment Management](#project-dependencies--environment-management)
+  - [1. Environment Management](#1-environment-management)
+    - [Workflow](#workflow)
+  - [2. Core Dependencies](#2-core-dependencies)
+    - [MCP Framework](#mcp-framework)
+    - [Database & ORM](#database--orm)
+    - [Networking (HTTP/Ubus)](#networking-httpubus)
+    - [Networking (SSH Fallback)](#networking-ssh-fallback)
+    - [Utilities](#utilities)
+  - [3. Dependency Groups](#3-dependency-groups)
+    - [Group: `test`](#group-test)
+    - [Group: `lint`](#group-lint)
+    - [Group: `dev`](#group-dev)
+  - [4. Proposed `pyproject.toml` Configuration](#4-proposed-pyprojecttoml-configuration)
+  - [5. Code Quality Automation](#5-code-quality-automation)
+  - [6. Usage Cheat Sheet](#6-usage-cheat-sheet)
+    - [Development Quick Start](#development-quick-start)
+    - [Managing Dependencies](#managing-dependencies)
+    - [Running Commands](#running-commands)
+    - [Code Quality (Pre-commit)](#code-quality-pre-commit)
+    - [Packaging & Publishing](#packaging--publishing)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Project Dependencies & Environment Management
 
 This document outlines the technical stack and dependency management strategy for the OpenWrt MCP Server, utilizing `uv` as the package manager.
@@ -59,6 +86,7 @@ We will organize development dependencies into specific groups to keep the envir
 
 - **`ruff`**: An extremely fast Python linter and formatter. Replaces `black`, `isort`, and `flake8`.
 - **`mypy`**: Static type checker to ensure our Pydantic models and async logic are type-safe.
+- **`pre-commit`**: Framework for managing and maintaining multi-language pre-commit hooks.
 
 ### Group: `dev`
 
@@ -95,12 +123,56 @@ test = [
 lint = [
     "ruff",
     "mypy",
+    "pre-commit",
 ]
 ```
 
-## 5. Usage Cheat Sheet
+## 5. Code Quality Automation
 
-This section serves as a quick reference for common `uv` commands used in this project.
+We will use **pre-commit** to ensure code quality standards are enforced before every commit.
+
+- **Configuration**: `.pre-commit-config.yaml`
+- **Hooks**:
+  - `ruff`: For linting and formatting.
+  - `mypy`: For static type checking.
+  - `check-yaml`: Validates YAML files.
+  - `check-toml`: Validates TOML files.
+  - `end-of-file-fixer`: Ensures files end with a newline.
+  - `trailing-whitespace`: Trims trailing whitespace.
+
+## 6. Usage Cheat Sheet
+
+### Development Quick Start
+
+1. **Install dependencies:**
+
+   ```bash
+   uv sync
+   ```
+
+1. **Install pre-commit hooks:**
+
+   ```bash
+   uv run --group lint pre-commit install
+   ```
+
+1. **Run the server:**
+
+   ```bash
+   uv run openwrt-mcp
+   ```
+
+1. **Run tests:**
+
+   ```bash
+   uv run pytest
+   ```
+
+1. **Run code quality checks:**
+
+   ```bash
+   uv run --group lint pre-commit run --all-files
+   ```
 
 ### Managing Dependencies
 
@@ -129,8 +201,21 @@ This section serves as a quick reference for common `uv` commands used in this p
   ```
 
 - **Sync environment (install all dependencies from lockfile):**
+
   ```bash
   uv sync --all-groups
+  ```
+
+- **Update all dependencies:**
+
+  ```bash
+  uv lock --upgrade
+  ```
+
+- **Update a specific dependency:**
+
+  ```bash
+  uv lock --upgrade-package httpx
   ```
 
 ### Running Commands
@@ -166,8 +251,29 @@ This section serves as a quick reference for common `uv` commands used in this p
   ```
 
 - **Open a REPL with dependencies loaded:**
+
   ```bash
   uv run --group dev ipython
+  ```
+
+### Code Quality (Pre-commit)
+
+- **Install pre-commit hooks (run once):**
+
+  ```bash
+  uv run --group lint pre-commit install
+  ```
+
+- **Run hooks manually on all files:**
+
+  ```bash
+  uv run --group lint pre-commit run --all-files
+  ```
+
+- **Update pre-commit hooks:**
+
+  ```bash
+  uv run --group lint pre-commit autoupdate
   ```
 
 ### Packaging & Publishing
@@ -185,6 +291,7 @@ This section serves as a quick reference for common `uv` commands used in this p
   ```
 
 - **Publish to a custom repository (e.g., TestPyPI):**
+
   ```bash
   uv publish --publish-url https://test.pypi.org/legacy/
   ```
