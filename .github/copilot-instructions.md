@@ -45,7 +45,7 @@
 
 ### Environment Setup
 
-**ALWAYS use `uv` for all Python operations.** This project uses `uv` (version 0.9.11+) as the package manager, NOT pip, pipenv, or poetry.
+**ALWAYS use `uv` for all Python operations.** This project uses `uv` (version 0.9.11+) as the package manager, NOT pip, pipenv, or poetry. The project was specifically designed to use uv for its speed and modern dependency resolution capabilities.
 
 1. **Install uv (if not available):**
 
@@ -102,8 +102,8 @@ uv run pytest --cov=src/openwrt_mcp --cov-report=term
 ```
 
 - All 6 unit tests should pass
-- Test execution takes ~0.1 seconds
-- Current coverage: ~31% (focused on device_manager)
+- Test execution takes approximately 0.1 seconds
+- Current coverage: approximately 31% (focused on device_manager)
 
 ### Code Quality and Linting
 
@@ -266,7 +266,7 @@ uv add --group lint <package>
 
 **Test Coverage:**
 
-- Current: 31% overall (device_manager: 96%)
+- Current: approximately 31% overall (device_manager: 96%)
 - Run coverage: `uv run pytest --cov=src/openwrt_mcp`
 - Untested areas: tools, utils, server initialization (acceptable for early stage)
 
